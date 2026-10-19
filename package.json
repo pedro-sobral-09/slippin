@@ -1,0 +1,38 @@
+{
+	"name": "slippin",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"dev": "turbo run dev",
+		"dev:api": "turbo run dev --filter=api",
+		"dev:web": "turbo run dev --filter=web",
+		"build": "turbo run build",
+		"lint": "biome lint .",
+		"format": "biome format --write .",
+		"check": "biome check .",
+		"compose:up": "docker compose up",
+    "compose:up:build": "docker compose up --build",
+    "compose:api": "docker compose up --build api",
+    "compose:web": "docker compose up --build web",
+    "compose:db": "docker compose up -d db",
+    "compose:down": "docker compose down",
+    "compose:ps": "docker compose ps",
+    "compose:logs": "docker compose logs -f"
+	},
+	"author": "Pedro Sobral",
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "12.14.0",
+			"onFail": "download"
+		}
+	},
+	"packageManager": "pnpm@12.14.0",
+	"type": "module",
+	"dependencies": {
+		"turbo": "^2.11.8"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.15"
+	}
+}
