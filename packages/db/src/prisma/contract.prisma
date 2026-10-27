@@ -1,21 +1,140 @@
 // use prisma-8
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String?
-  name      String?
-  posts     Post[]
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+enum Role {
+  @@type("pg/text@1")
+  User = "USER"
+  Admin = "ADMIN"
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+enum SellerStatus {
+  @@type("pg/text@1")
+  None = "NONE"
+  Pending = "PENDING"
+  Approved = "APPROVED"
+  Rejected = "REJECTED"
+}
+
+enum OnboardingStatus {
+ @@type("pg/text@1")
+  Pending = "PENDING"
+  Complete = "COMPLETE"
+}
+
+enum EventType {
+  @@type("pg/text@1")
+  Casual = "CASUAL"
+  Professional = "PROFESSIONAL"
+}
+
+enum Visibility {
+  @@type("pg/text@1")
+  Public = "PUBLIC"
+  Private = "PRIVATE"
+}
+
+enum OrderStatus {
+  @@type("pg/text@1")
+  Pending = "PENDING"
+  Paid = "PAID"
+  Cancelled = "CANCELLED"
+}
+
+enum TicketStatus {
+  @@type("pg/text@1")
+  Valid = "VALID"
+  Used = "USED"
+}
+
+model User {
+  id Uuid  @id @default(uuid())
+  name String
+  email String @unique
+  password String
+  role Role @default(User)
+  sellerStatus SellerStatus @default(None)
+  createdAt DateTime @default(now())
+  updatedAt temporal.updatedAt()
+  deletedAt DateTime?
+  sellerProfile SellerProfile[]
+  events Event[]
+  orders Order[]
+}
+
+model SellerProfile {
+  id Uuid  @id @default(uuid())
+  userId Uuid  @unique
+  user User @relation(fields: [userId], references: [id])
+  recipientId String?
+  status OnboardingStatus @default(Pending)
+}
+
+model Event {
+  id Uuid  @id @default(uuid())
+  organizerId Uuid  
+  organizer User @relation(fields: [organizerId], references: [id])
+  title String 
+  description String?
+  eventType EventType
+  visibility Visibility @default(Public)
+  slug String @unique
+  city String 
+  location String 
+  startsAt DateTime
+  endsAt DateTime?
+  createdAt DateTime @default(now())
+  ticketType TicketType[]
+  orders Order[]
+}
+
+model TicketType {
+  id Uuid  @id @default(uuid())
+  eventId Uuid 
+  event Event @relation(fields: [eventId], references: [id])
+  name String 
+  description String?
+  price Int
+  quantityTotal Int
+  quantityAvailable Int
+  cpfLimit Int?
+  orderItems OrderItem[]
+}
+
+model Order {
+  id Uuid  @id @default(uuid())
+  userId Uuid ?
+  user User? @relation(fields: [userId], references: [id])
+  eventId Uuid 
+  event Event @relation(fields: [eventId], references: [id])
+  buyerName String 
+  buyerEmail String 
+  buyerCpf String
+  status OrderStatus @default(Pending)
+  totalAmount Int
+  platformFee Int
+  sellerAmount Int
+  paymentId String?
+  createdAt DateTime @default(now())
+  paidAt DateTime?
+  orderItems OrderItem[]
+}
+
+model OrderItem {
+  id Uuid  @id @default(uuid())
+  orderId Uuid 
+  order Order @relation(fields: [orderId], references: [id])
+  ticketTypeId Uuid
+  ticketType TicketType @relation(fields: [ticketTypeId], references: [id])
+  quantity Int
+  unitPrice Int
+  tickets Ticket[]
+}
+
+model Ticket {
+  id Uuid  @id @default(uuid())
+  orderItemId Uuid 
+  orderItem OrderItem @relation(fields: [orderItemId], references: [id])
+  code String @unique
+  status TicketStatus @default(Valid)
+  usedAt DateTime?
+  createdAt DateTime @default(now())
 }

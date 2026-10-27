@@ -17,7 +17,8 @@
     "compose:db": "docker compose up -d db",
     "compose:down": "docker compose down",
     "compose:ps": "docker compose ps",
-    "compose:logs": "docker compose logs -f"
+    "contract:emit": "pnpm --filter ./packages/db prisma contract emit",
+    "migration:status": "pnpm --filter ./packages/db prisma migration status"
 	},
 	"author": "Pedro Sobral",
 	"devEngines": {
