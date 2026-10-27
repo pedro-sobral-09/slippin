@@ -11,14 +11,14 @@
 		"format": "biome format --write .",
 		"check": "biome check .",
 		"compose:up": "docker compose up",
-    "compose:up:build": "docker compose up --build",
-    "compose:api": "docker compose up --build api",
-    "compose:web": "docker compose up --build web",
-    "compose:db": "docker compose up -d db",
-    "compose:down": "docker compose down",
-    "compose:ps": "docker compose ps",
-    "contract:emit": "pnpm --filter ./packages/db prisma contract emit",
-    "migration:status": "pnpm --filter ./packages/db prisma migration status"
+		"compose:up:build": "docker compose up --build",
+		"compose:api": "docker compose up --build api",
+		"compose:web": "docker compose up --build web",
+		"compose:db": "docker compose up -d db",
+		"compose:down": "docker compose down",
+		"compose:ps": "docker compose ps",
+		"contract:emit": "pnpm --filter ./packages/db prisma contract emit",
+		"migration:status": "pnpm --filter ./packages/db prisma migration status"
 	},
 	"author": "Pedro Sobral",
 	"devEngines": {

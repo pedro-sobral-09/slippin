@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/health", (req: Request, res: Response) => {
-  res.status(200).json({ message: "Slippin API is healthy" });
+	res.status(200).json({ message: "Slippin API is healthy" });
 });
 
 export { app };
