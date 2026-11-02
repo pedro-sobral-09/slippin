@@ -1,7 +1,11 @@
-import express, { type Express, type Request, type Response } from "express";
-import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
+import express, { type Express } from "express";
+import helmet from "helmet";
+import { errorHandler } from "./shared/middlewares/error-handler.js";
+import { router } from "./routes.js";
+import { requestLogger } from "./shared/middlewares/request-logger.js";
+
 dotenv.config();
 
 const app: Express = express();
@@ -9,9 +13,10 @@ const app: Express = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger);
 
-app.get("/health", (req: Request, res: Response) => {
-	res.status(200).json({ message: "Slippin API is healthy" });
-});
+app.use("/api", router);
+
+app.use(errorHandler);
 
 export { app };

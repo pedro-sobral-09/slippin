@@ -6,7 +6,17 @@
 		"useIgnoreFile": false
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": false,
+		"includes": [
+			"**",
+			"!**/schema.prisma",
+			"!**/prisma",
+			"!**/migrations",
+			"!**/*.generated.ts",
+			"!!**/dist",
+			"!!**/coverage",
+			"!!**/node_modules"
+		]
 	},
 	"formatter": {
 		"enabled": true,

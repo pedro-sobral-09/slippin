@@ -5,11 +5,13 @@
 	"type": "module",
 	"scripts": {
 		"contract:emit": "prisma contract emit",
-		"migration:status": "pnpm prisma migration status"
+		"migration:status": "pnpm prisma migration status",
+		"migration:init": "pnpm prisma db init"
 	},
 	"dependencies": {
 		"@prisma/orm-postgres": "8.0.0-rc.18",
-		"dotenv": "^18.0.8"
+		"dotenv": "^18.0.8",
+		"temporal-polyfill": "^1.0.6"
 	},
 	"devDependencies": {
 		"@prisma/cli-engine": "0.7.0",
